@@ -4,6 +4,10 @@ Windows hardware & software inventory in seconds. Collects all machine data loca
 
 > 🇧🇷 Versão em português: [README.ptbr.md](README.ptbr.md)
 
+## Preview
+
+![360ti HWiNFO](tela.png)
+
 ## How it works
 
 1. Runs the collector (`360ti-hwinfo.exe`, no console window).

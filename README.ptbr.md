@@ -2,6 +2,10 @@
 
 Levantamento de hardware e software do Windows em segundos. Coleta localmente os dados da maquina (processador, placa-mae, memoria, discos, rede, BIOS, software, etc.) e gera um **relatorio HTML navegavel** (menu lateral, estilo SaaS), um **PDF legivel** e um **JSON** com tudo estruturado — sem enviar nada para servidores. Personalizavel por `config.json` (logo em base64 e cores) e distribuivel por instalador NSIS.
 
+## Pre-visualizacao
+
+![360ti HWiNFO](tela.png)
+
 ## Como funciona
 
 1. Executa o coletor (`360ti-hwinfo.exe`, sem console).
