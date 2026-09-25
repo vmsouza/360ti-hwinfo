@@ -75,6 +75,50 @@ O coletor lê `config.json` do lado do executável. O logo é embutido como base
 - `logo`: caminho do arquivo de logo (relativo ao exe). Também pode usar `logo_base64` com o base64 (ou data URI) do logo.
 - `colors`: sobrescreve o tema (independente de config.json, os valores padrão são os acima).
 
+## Requisitos
+
+**Para usar o programa (máquina final):**
+- Windows 10/11 (64 ou 32 bits)
+- Apenas o executável: `360ti-hwinfo.exe` + `config.json` (opcional) + `logo360ti.png` (opcional). Nenhuma dependência — WMI, CPUID e o relatório são tudo nativo.
+
+**Para compilar o binário:**
+- [Go](https://go.dev/dl) 1.20 ou superior
+- Git (opcional, para clonar)
+
+**Para gerar o instalador (.exe NSIS):**
+- [NSIS](https://nsis.sourceforge.io) 3.x (com `makensis`)
+
+**Para editar o relatório (logo/cores):**
+- Editor de texto simples (o `config.json` fica ao lado do executável)
+
+## Como instalar no Windows (sem Go/NSIS instalados)
+
+Instale via **winget** (PowerShell) ou pelos sites oficiais:
+
+```powershell
+# Go (para compilar o binário)
+winget install GoLang.Go
+
+# NSIS (para gerar o instalador)
+winget install NSIS.NSIS
+
+# Git (opcional)
+winget install Git.Git
+```
+
+Ou baixe manualmente:
+- Go: https://go.dev/dl (instalador MSI) — após instalar, reinicie o terminal.
+- NSIS: https://nsis.sourceforge.io/Download
+- Git: https://git-scm.com/downloads
+
+Depois, verifique se o Go está no PATH:
+
+```bash
+go version
+```
+
+Para usar o programa, não é preciso instalar nada: copie o `360ti-hwinfo.exe` (e o `config.json` + `logo360ti.png`, se quiser personalizar) para qualquer pasta e execute.
+
 ## Build
 
 Requer Go 1.20+.
