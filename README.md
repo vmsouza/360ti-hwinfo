@@ -1,56 +1,54 @@
 # 360ti HWiNFO
 
-Windows hardware & software inventory in seconds. Collects all machine data locally (CPU, motherboard, memory, disks, network, BIOS, installed software, and more) and generates a **navigable HTML report** (left sidebar, SaaS-style), a **readable PDF**, and a **JSON** with everything structured — with nothing sent to any server. Customizable via `config.json` (logo as base64 + colors) and distributable with an NSIS installer.
+Levantamento de hardware e software do Windows em segundos. Coleta localmente os dados da maquina (processador, placa-mae, memoria, discos, rede, BIOS, software, etc.) e gera um **relatorio HTML navegavel** (menu lateral, estilo SaaS), um **PDF legivel** e um **JSON** com tudo estruturado — sem enviar nada para servidores. Personalizavel por `config.json` (logo em base64 e cores) e distribuivel por instalador NSIS.
 
-> 🇧🇷 Versão em português: [README.ptbr.md](README.ptbr.md)
-
-## Preview
+## Pre-visualizacao
 
 ![360ti HWiNFO](tela.png)
 
-## How it works
+## Como funciona
 
-1. Runs the collector (`360ti-hwinfo.exe`, no console window).
-2. Reads `config.json` next to the executable (logo + colors) to style the report.
-3. Collects data via WMI, CPUID and gopsutil.
-4. Generates:
-   - `reports/360ti-hwinfo.html` — navigable report with a left sidebar (HWiNFO-style), plus **Abrir PDF** and **Copiar JSON** buttons.
-   - `reports/360ti-hwinfo.pdf` — A4 document with all sections as tables.
-   - `reports/360ti-hwinfo.json` — structured data (also embedded in the HTML for the Copy JSON button).
-5. Opens the HTML in the default browser.
+1. Executa o coletor (`360ti-hwinfo.exe`, sem console).
+2. Lê o `config.json` (logo + cores) do lado do executavel para personalizar o relatório.
+3. Coleta dados via WMI (`github.com/StackExchange/wmi`), CPUID (`klauspost/cpuid/v2`) e gopsutil.
+4. Gera:
+   - `reports/360ti-hwinfo.html` — relatório navegável com menu lateral (menu lateral estilo HWiNFO), botoes **Abrir PDF** e **Copiar JSON**.
+   - `reports/360ti-hwinfo.pdf` — documento A4 com todas as seções em tabelas.
+   - `reports/360ti-hwinfo.json` — dados estruturados (também embutidos no HTML para o botão Copiar JSON).
+5. Abre o HTML no navegador padrão.
 
-The `reports` folder lives in the **user data** directory (`%AppData%\360ti-hwinfo\reports` on Windows), always writable even when installed under Program Files.
+A pasta `reports` fica em **user data** (`%AppData%\360ti\reports` no Windows), sempre gravável mesmo com o app instalado em `Program Files`.
 
-## What is collected
+## O que é coletado
 
-- Summary: hostname, OS, kernel, uptime, machine ID
-- CPU: CPUID details (L1/L2/L3 cache, microarchitecture level, instruction set), per-socket processors
-- Temperature sensors (ACPI)
-- Motherboard, product (serial/UUID) and chassis (type)
-- Memory: total/usage + modules (slot, capacity, speed, type)
-- Physical disks (model, serial, interface, SSD/HDD/NVMe media, firmware) and partition usage
-- Mapped network drives (remote UNC destination)
-- Network adapters (IP, mask, gateway, DHCP, DNS, link speed)
-- Video cards and monitors
-- USB controllers
-- PCI/PCIe devices and possible chipset components
-- BIOS/UEFI (boot mode, SMBIOS spec, version)
-- Installed software (from the registry)
-- Processes (top by memory)
+- Resumo: hostname, SO, kernel, uptime, reboot, maquina
+- Processador: detalhes CPUID (cache L1/L2/L3, microarquitetura, conjunto de instruções), processadores por pacote
+- Sensores de temperatura (ACPI)
+- Placa-mãe, produto (serial/UUID) e gabinete (tipo de chassi)
+- Memória: total/uso + módulos (slot, capacidade, velocidade, tipo)
+- Discos físicos (modelo, serial, interface, midia SSD/HDD/NVMe, firmware) e partições/uso
+- Pastas de rede mapeadas (destino remoto UNC)
+- Placas de rede (IP, máscara, gateway, DHCP, DNS, velocidade do link)
+- Placas de vídeo e monitores
+- Controladores USB
+- Dispositivos PCI/PCIe e possíveis componentes de chipset
+- BIOS/UEFI (modo de boot, especificação SMBIOS, versão)
+- Software instalado (do registro)
+- Processos (top por memória)
 
-## Usage
+## Uso
 
 ```text
-360ti-hwinfo.exe                   # collect and open the HTML in the browser
-360ti-hwinfo.exe -out PATH         # generate the report at PATH (html + pdf)
-360ti-hwinfo.exe -open=false       # generate without opening the browser
-360ti-hwinfo.exe -report DIR       # write report.html/.pdf/.json/.dat into DIR
-360ti-hwinfo.exe -timing           # write a timing log (diagnostics)
+360ti-hwinfo.exe                 # coleta e abre o HTML no navegador
+360ti-hwinfo.exe -out CAMINHO    # gera o relatorio em CAMINHO (html + pdf)
+360ti-hwinfo.exe -open=false     # gera sem abrir o navegador
+360ti-hwinfo.exe -report DIR     # gera report.html/.pdf/.json/.dat em DIR sem abrir
+360ti-hwinfo.exe -timing         # grava log de tempo (diagnostico)
 ```
 
-## Configuration (`config.json`)
+## Configuração (`config.json`)
 
-The collector reads `config.json` next to the executable. The logo is embedded into the HTML as base64.
+O coletor lê `config.json` do lado do executavel. O logo e embutido como base64 no HTML.
 
 ```json
 {
@@ -74,64 +72,62 @@ The collector reads `config.json` next to the executable. The logo is embedded i
 }
 ```
 
-- `logo`: path to the logo file (relative to the exe). You can also use `logo_base64` with the base64 (or data URI) of the logo.
-- `colors`: overrides the theme (`app_name` title and PDF accent follow the theme).
+- `logo`: caminho do arquivo de logo (relativo ao exe). Também pode usar `logo_base64` com o base64 (ou data URI) do logo.
+- `colors`: sobrescreve o tema (independente de config.json, os valores padrão são os acima).
 
-## Building
+## Build
 
-Requires Go 1.20+.
+Requer Go 1.20+.
 
 ```bash
-# build.sh cross-compiles for Windows (amd64 and 386) -> dist/360ti-hwinfo.exe
+# build.sh compila para Windows (amd64 e 386) e gera dist/360ti-hwinfo.exe
 ./build.sh
 
-# or manually
+# ou manualmente
 GOOS=windows GOARCH=amd64 go build -ldflags "-s -w -H windowsgui" -o dist/360ti-hwinfo.exe .
 
-# local test build (Linux)
+# build de teste local (Linux)
 go build -o tmp/360ti-hwinfo .
 ```
 
-## Installer (NSIS)
+## Instalador (NSIS)
 
-See `installer/360ti-hwinfo.nsi`. On Windows, with NSIS 3.x:
+Em `installer/360ti-hwinfo.nsi`. No Windows, com NSIS 3.x:
 
 ```text
 makensis installer\360ti-hwinfo.nsi
 ```
 
-Produces `360ti-hwinfo-setup.exe` (shortcuts, uninstaller, Add/Remove Programs). The script expects `dist\` with the files next to `installer\`.
+Gera `360ti-hwinfo-setup.exe` (atalhos, desinstalador, Add/Remove Programs). O script espera `dist\` com os arquivos ao lado de `installer\`.
 
-## Layout
+## Estrutura
 
 ```text
 .
-├── main.go              # entry point: flags and flow (collect -> HTML/PDF/JSON)
-├── collect.go           # cross-platform collection (host, cpu, memory, disks, net, processes)
-├── collect_windows.go   # Windows collection: WMI, sensors, PCI, network folders, etc.
-├── collect_other.go     # non-Windows stub
-├── network_windows.go   # physical disks and detailed NICs (WMI)
-├── cpuid.go             # CPU details via CPUID
-├── config.go            # reads config.json: logo (base64) + colors
-├── dataset.go           # shared sections (report.dat and PDF)
-├── pdf.go               # PDF generation (embedded DejaVu font)
-├── reportfiles.go       # writes HTML/JSON/DAT/PDF
-├── report.go            # HTML template (embedded Bootstrap) + embedded JSON
-├── timing.go            # timing diagnostics (optional)
-├── assets.go            # embedded bootstrap css/js
-├── browser_windows.go   # open browser / error box (Windows)
-├── browser_other.go     # non-Windows stub
-├── fonts/               # TTF fonts embedded in the PDF
+├── main.go              # entrada: flags e fluxo (coleta -> HTML/PDF/JSON)
+├── collect.go           # coleta cross-platform (host, cpu, memoria, discos, rede, processos)
+├── collect_windows.go   # coleta Windows: WMI, sensores, PCI, pasta de rede, etc.
+├── collect_other.go     # stub nao-Windows
+├── network_windows.go   # discos fisicos e placas de rede detalhadas (WMI)
+├── cpuid.go             # detalhes do processador via CPUID
+├── config.go            # le config.json: logo (base64) + cores
+├── dataset.go           # secoes compartilhadas (report.dat e PDF)
+├── pdf.go               # gerador de PDF (fonte DejaVu embarcada)
+├── reportfiles.go       # grava HTML/JSON/DAT/PDF
+├── report.go            # template HTML (Bootstrap embarcado) + JSON embutido
+├── timing.go            # diagnostico de tempo (opcional)
+├── assets.go            # bootstrap css/js embarcados
+├── browser_windows.go   # abrir navegador / caixa de erro (Windows)
+├── browser_other.go     # stub nao-Windows
+├── fonts/               # fontes TTF embarcadas no PDF
 ├── static/              # bootstrap.min.css / bootstrap.bundle.min.js
-├── config.json          # logo + colors (read next to the exe)
-├── logo360ti.png        # default logo
-├── dist/                # generated binaries + distribution config/logo
-├── installer/           # NSIS + generated setup
-├── README.md            # this file (EN)
-├── README.ptbr.md       # PT-BR version
+├── config.json          # logo + cores (lido ao lado do exe)
+├── logo360ti.png        # logo padrao
+├── dist/                # binarios gerados + config/logo de distribuicao
+├── installer/           # NSIS + setup gerado
 └── build.sh
 ```
 
-## Platform
+## Plataforma
 
-Targets **Windows** (amd64 and 386). The main delivery is the HTML/PDF report; collection uses WMI/CPUID only on Windows.
+Foco em **Windows** (amd64 e 386). A GUI principal e o relatório HTML/PDF; coleta via WMI/CPUID so no Windows.
