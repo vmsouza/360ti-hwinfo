@@ -38,6 +38,8 @@ A pasta `reports` fica em **user data** (`%AppData%\360ti\reports` no Windows), 
 
 ## Uso
 
+Dê duplo clique no `360ti-hwinfo.exe` ou rode no **CMD** / **PowerShell**:
+
 ```text
 360ti-hwinfo.exe                 # coleta e abre o HTML no navegador
 360ti-hwinfo.exe -out CAMINHO    # gera o relatório em CAMINHO (html + pdf)
@@ -91,37 +93,83 @@ O coletor lê `config.json` do lado do executável. O logo é embutido como base
 **Para editar o relatório (logo/cores):**
 - Editor de texto simples (o `config.json` fica ao lado do executável)
 
-## Como instalar no Windows (sem Go/NSIS instalados)
+## Como pegar o código (Git)
 
-Instale via **winget** (PowerShell) ou pelos sites oficiais:
+No **PowerShell** ou no **CMD (Prompt de Comando)** do Windows:
+
+```bash
+# HTTPS
+git clone https://github.com/vmsouza/360ti-hwinfo.git
+cd 360ti-hwinfo
+
+# ou via SSH (precisa da chave configurada no GitHub)
+git clone git@github.com:vmsouza/360ti-hwinfo.git
+cd 360ti-hwinfo
+```
+
+## Como instalar o ambiente no Windows (sem Go/NSIS instalados)
+
+Instale via **winget** ([PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/windows-powershell/install/installing-windows-powershell) — abra o terminal como administrador) ou pelos sites oficiais:
 
 ```powershell
-# Go (para compilar o binário)
+# PowerSHell (winget)
 winget install GoLang.Go
-
-# NSIS (para gerar o instalador)
 winget install NSIS.NSIS
+winget install Git.Git
+```
 
-# Git (opcional)
+No **CMD (Prompt de Comando)**, o winget também funciona:
+
+```cmd
+winget install GoLang.Go
+winget install NSIS.NSIS
 winget install Git.Git
 ```
 
 Ou baixe manualmente:
-- Go: https://go.dev/dl (instalador MSI) — após instalar, reinicie o terminal.
+- Go: https://go.dev/dl (instalador MSI) — após instalar, **feche e reabra o terminal** para o `go` entrar no PATH.
 - NSIS: https://nsis.sourceforge.io/Download
 - Git: https://git-scm.com/downloads
 
-Depois, verifique se o Go está no PATH:
+Depois, verifique se o Go está no PATH — no **PowerShell** ou **CMD**:
 
 ```bash
 go version
 ```
 
-Para usar o programa, não é preciso instalar nada: copie o `360ti-hwinfo.exe` (e o `config.json` + `logo360ti.png`, se quiser personalizar) para qualquer pasta e execute.
+Para **usar** o programa, não é preciso instalar nada: copie o `360ti-hwinfo.exe` (e o `config.json` + `logo360ti.png`, se quiser personalizar) para qualquer pasta e execute.
 
 ## Build
 
 Requer Go 1.20+.
+
+**No Linux (bash):**
+
+```bash
+# build.sh compila para Windows (amd64 e 386) e gera dist/360ti-hwinfo.exe
+./build.sh
+
+# ou manualmente
+GOOS=windows GOARCH=amd64 go build -ldflags "-s -w -H windowsgui" -o dist/360ti-hwinfo.exe .
+
+# build de teste local (Linux)
+go build -o tmp/360ti-hwinfo .
+```
+
+**No Windows — PowerShell:**
+
+```powershell
+$env:GOOS="windows"; $env:GOARCH="amd64"
+go build -ldflags "-s -w -H windowsgui" -o dist\360ti-hwinfo.exe .
+$env:GOOS=""; $env:GOARCH=""   # volta ao normal
+```
+
+**No Windows — CMD (Prompt de Comando):**
+
+```cmd
+set GOOS=windows&& set GOARCH=amd64&& go build -ldflags "-s -w -H windowsgui" -o dist\360ti-hwinfo.exe .
+set GOOS=&& set GOARCH=
+```
 
 ```bash
 # build.sh compila para Windows (amd64 e 386) e gera dist/360ti-hwinfo.exe
@@ -136,9 +184,13 @@ go build -o tmp/360ti-hwinfo .
 
 ## Instalador (NSIS)
 
-Em `installer/360ti-hwinfo.nsi`. No Windows, com NSIS 3.x:
+Em `installer/360ti-hwinfo.nsi`. No Windows, com NSIS 3.x, rode na pasta do projeto (onde `installer\` e `dist\` são irmãs) — no **CMD (Prompt de Comando)** ou **PowerShell**:
 
-```text
+```cmd
+makensis installer\360ti-hwinfo.nsi
+```
+
+```powershell
 makensis installer\360ti-hwinfo.nsi
 ```
 
