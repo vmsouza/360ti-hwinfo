@@ -196,6 +196,16 @@ makensis installer\360ti-hwinfo.nsi
 
 Gera `360ti-hwinfo-setup.exe` (atalhos, desinstalador, Add/Remove Programs). O script espera `dist\` com os arquivos ao lado de `installer\`.
 
+### Personalização (logo e cores da sua empresa)
+
+O instalador empacota os arquivos de `dist\` e o programa usa o `config.json` + o logo em tempo de execução — então **não precisa recompilar** para gerar um instalador com a sua marca:
+
+1. **Logo**: substitua `dist\logo360ti.png` pelo logo da empresa (ou informe outro caminho em `config.json` → `logo`).
+2. **Cores**: edite `dist\config.json` em `colors` (`accent`, `background`, `sidebar`, `text`...). O título do aplicativo e do PDF seguem a cor `accent`.
+3. **Nomes**: altere `app_name` e `company_name` no `dist\config.json`.
+
+Depois rode novamente `makensis installer\360ti-hwinfo.nsi` — o instalador sai com o seu logo, cores e nomes, pronto para distribuir.
+
 ## Estrutura
 
 ```text
