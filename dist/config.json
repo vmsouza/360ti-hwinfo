@@ -1,0 +1,19 @@
+{
+  "app_name": "360ti HWiNFO",
+  "company_name": "360ti",
+  "logo": "logo360ti.png",
+  "logo_base64": "",
+  "colors": {
+    "accent": "#2563eb",
+    "accent2": "#3b82f6",
+    "accent3": "#0ea5e9",
+    "accent4": "#60a5fa",
+    "background": "#f3f5f9",
+    "sidebar": "#ffffff",
+    "surface": "#ffffff",
+    "surface2": "#f1f5f9",
+    "border": "#e5e9f0",
+    "text": "#0f172a",
+    "muted": "#64748b"
+  }
+}

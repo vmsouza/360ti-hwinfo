@@ -1,0 +1,21 @@
+# Binários gerados
+/dist/*.exe
+/dist/360ti-analisys-setup.exe
+
+# Instaladores gerados
+installer/*.setup.exe
+*.setup.exe
+
+# Relatórios / logs
+reports/
+*.log
+360ti-analisys-timing.log
+
+# Config local (logo/cores) - manter config.json versionado, ignorar alternativas locais
+# VS / IDE
+.vscode/
+.idea/
+*.user
+
+# Go
+*.test
